@@ -24,13 +24,23 @@
 </html>
 
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
-    $targetDir = "uploads/";
-    $targetFile = $targetDir . basename($_FILES["image"]["name"]);
-    if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
-        console.log("Image uploaded: " . htmlspecialchars($_FILES["image"]["name"]));
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_FILES['image'])) {
+        if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = 'uploads/';
+            $fileName = basename($_FILES['image']['name']);
+            $uploadPath = $uploadDir . $fileName;
+
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadPath)) {
+                echo "File uploaded successfully.";
+            } else {
+                echo "Error: Failed to move uploaded file.";
+            }
+        } else {
+            echo "Error: " . $_FILES['image']['error'];
+        }
     } else {
-        console.log("Upload failed.");
+        echo "No file uploaded.";
     }
 }
 ?>

@@ -14,9 +14,9 @@
             </ul>
         </div>
         <div class="content">
-            <form action="upload" method="POST" enctype="multipart/form-data">
+            <form action="upload_form.php" method="POST" enctype="multipart/form-data">
                 <input type="file" name="image" id="image" accept="image/*" required>
-                <input type="submit" value ="upload">
+                <input type="submit" value ="Upload">
             </form>
             
         </div>

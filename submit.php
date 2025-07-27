@@ -8,13 +8,13 @@
     <body>
         <div class="menu">
             <ul>
-                <li><a href="\index">Home</a></li>
-                <li><a href="\submit"></a></li>
+                <li><a href="\index.html">Home</a></li>
+                <li><a href="\submit.php"></a></li>
                 <li><a href="\pets"></a></li>
             </ul>
         </div>
         <div class="content">
-            <form action="upload_form.php" method="POST" enctype="multipart/form-data">
+            <form action="submit.php" method="POST" enctype="multipart/form-data">
                 <input type="file" name="image" id="image" accept="image/*" required>
                 <input type="submit" value ="Upload">
             </form>

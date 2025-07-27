@@ -24,6 +24,10 @@
 </html>
 
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['image'])) {
         if ($_FILES['image']['error'] === UPLOAD_ERR_OK) {

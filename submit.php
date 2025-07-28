@@ -29,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
                 'Bucket'      => $bucket,
                 'Key'         => $filename,
                 'SourceFile'  => $filePath,
-                'ACL'         => 'public-read',
                 'ContentType' => $type
             ]);
 

@@ -101,3 +101,16 @@ input[type="submit"]:hover, button:hover {
     height: auto;
     border-radius: 5px;
 }
+
+@media (max-width: 600px) {
+    .menu {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .content {
+        margin-left: 0;
+        padding: 20px;
+    }
+}

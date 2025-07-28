@@ -68,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
             <ul>
                 <li><a href="\index.html">Home</a></li>
                 <li><a href="\submit.php">Submit</a></li>
-                <li><a href="\pets">Pets</a></li>
+                <li><a href="\pets.php">Pets</a></li>
             </ul>
         </div>
         <div class="content">

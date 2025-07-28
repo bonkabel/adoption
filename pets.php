@@ -29,8 +29,8 @@
         <div class="content">
             <h1>Pets</h1>
             <?php
-                $bucket = 'your-bucket-name';
-                $region = 'your-region';
+                $bucket = 'mypetimages';
+                $region = 'us-east-2';
                 $jsonFile = 'petdata.json';
 
                 if (!file_exists($jsonFile)) {

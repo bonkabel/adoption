@@ -4,9 +4,8 @@ require 'vendor/autoload.php';
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
 
-// AWS settings
-$bucket = 'your-bucket-name';
-$region = 'your-region'; // e.g., us-east-1
+$bucket = 'mypetimages';
+$region = 'us-east-2';
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {

@@ -41,9 +41,12 @@
                 $entries = json_decode(file_get_contents($jsonFile), true);
                 echo "<div style='display:flex; flex-wrap:wrap;'>";
 
+                echo '<pre>';
+                print_r($entries);
+                echo '</pre>';
+
                 foreach ($entries as $entry) {
                     $url = "https://{$bucket}.s3.{$region}.amazonaws.com/" . $entry['filename'];
-                    echo "<div>htmlspecialchars($entries, ENT_QUOTES);</div>";
                     echo "<div style='margin:15px; text-align:center;'>";
                     echo "<img src='$url' style='width:200px; height:auto;'><br>";
                     echo "<strong>Name:</strong> " . htmlspecialchars($entry['name']) . "<br>";

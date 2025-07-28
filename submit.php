@@ -1,5 +1,28 @@
 <!DOCTYPE html>
-<?php
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>adoption</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="menu">
+            <ul>
+                <li><a href="\index.html">Home</a></li>
+                <li><a href="\submit.php">Submit</a></li>
+                <li><a href="\pets.php">Pets</a></li>
+            </ul>
+        </div>
+        <div class="content">
+        <form method="POST" enctype="multipart/form-data" action="">
+            <input type="file" name="image" accept="image/*" required><br>
+            <input type="text" name="name" placeholder="Name" required><br>
+            <input type="text" name="age" placeholder="Age" required><br>
+            <input type="text" name="breed" placeholder="Breed" required><br>
+            <input type="submit" value="Upload">
+        </form>
+        <?php
 require 'vendor/autoload.php';
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
@@ -45,7 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
             $allMeta[] = $meta;
             file_put_contents($jsonFile, json_encode($allMeta, JSON_PRETTY_PRINT));
 
-            echo "<p>Upload successful.</p><a href='view.php'>View images</a>";
+            echo "<p>Upload successful.</p><a href='pets.php'>View images</a>";
 
         } catch (S3Exception $e) {
             echo "<p>Upload failed: " . $e->getMessage() . "</p>";
@@ -55,28 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
     }
 }
 ?>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>adoption</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-        <div class="menu">
-            <ul>
-                <li><a href="\index.html">Home</a></li>
-                <li><a href="\submit.php">Submit</a></li>
-                <li><a href="\pets.php">Pets</a></li>
-            </ul>
-        </div>
-        <div class="content">
-        <form method="POST" enctype="multipart/form-data" action="">
-            <input type="file" name="image" accept="image/*" required><br>
-            <input type="text" name="name" placeholder="Name" required><br>
-            <input type="text" name="age" placeholder="Age" required><br>
-            <input type="text" name="breed" placeholder="Breed" required><br>
-            <input type="submit" value="Upload">
-        </form>
             
         </div>
     </body>

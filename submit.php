@@ -22,7 +22,7 @@
         <input type="submit" value="Upload">
     </form>
 
-<?php
+    <?php
 require 'vendor/autoload.php';
 use Aws\S3\S3Client;
 use Aws\S3\Exception\S3Exception;
@@ -35,63 +35,88 @@ error_reporting(E_ALL);
 $bucket = 'mypetimages';
 $region = 'us-east-2';
 
+// Function to translate upload error code to message
+function uploadErrorMessage($errorCode) {
+    switch ($errorCode) {
+        case UPLOAD_ERR_OK:
+            return "Upload successful.";
+        case UPLOAD_ERR_INI_SIZE:
+        case UPLOAD_ERR_FORM_SIZE:
+            return "File is too large.";
+        case UPLOAD_ERR_PARTIAL:
+            return "File was only partially uploaded.";
+        case UPLOAD_ERR_NO_FILE:
+            return "No file was uploaded.";
+        case UPLOAD_ERR_NO_TMP_DIR:
+            return "Missing temporary folder.";
+        case UPLOAD_ERR_CANT_WRITE:
+            return "Failed to write file to disk.";
+        case UPLOAD_ERR_EXTENSION:
+            return "A PHP extension stopped the file upload.";
+        default:
+            return "Unknown upload error (code $errorCode).";
+    }
+}
+
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
-    $name  = $_POST['name'];
-    $age   = $_POST['age'];
-    $breed = $_POST['breed'];
+    $name  = $_POST['name'] ?? '';
+    $age   = $_POST['age'] ?? '';
+    $breed = $_POST['breed'] ?? '';
     $file  = $_FILES['image'];
 
-    if ($file['error'] === UPLOAD_ERR_OK) {
-        $filename = uniqid() . "_" . basename($file['name']);
-        $filePath = $file['tmp_name'];
-        $type     = mime_content_type($filePath);
+    $errorMsg = uploadErrorMessage($file['error']);
+    if ($file['error'] !== UPLOAD_ERR_OK) {
+        echo "<p>Error uploading file: $errorMsg</p>";
+        exit;
+    }
 
-        try {
-            $s3 = new S3Client([
-                'region'  => $region,
-                'version' => 'latest',
-            ]);
+    $filename = uniqid() . "_" . basename($file['name']);
+    $filePath = $file['tmp_name'];
+    $type     = mime_content_type($filePath);
 
-            $s3->putObject([
-                'Bucket'      => $bucket,
-                'Key'         => $filename,
-                'SourceFile'  => $filePath,
-                'ContentType' => $type
-            ]);
+    try {
+        $s3 = new S3Client([
+            'region'  => $region,
+            'version' => 'latest',
+        ]);
 
-            // Save pet metadata
-            $meta = [
-                'name'     => $name,
-                'age'      => $age,
-                'breed'    => $breed,
-                'url'      => "https://{$bucket}.s3.{$region}.amazonaws.com/{$filename}"
-            ];
+        $s3->putObject([
+            'Bucket'      => $bucket,
+            'Key'         => $filename,
+            'SourceFile'  => $filePath,
+            'ContentType' => $type
+        ]);
 
-            $jsonFile = __DIR__ . '/petdata.json';
+        // Save pet metadata
+        $meta = [
+            'name'     => $name,
+            'age'      => $age,
+            'breed'    => $breed,
+            'url'      => "https://{$bucket}.s3.{$region}.amazonaws.com/{$filename}"
+        ];
 
-            // Load and append
-            if (file_exists($jsonFile)) {
-                $existing = json_decode(file_get_contents($jsonFile), true);
-                if (!is_array($existing)) $existing = [];
-            } else {
-                $existing = [];
-            }
+        $jsonFile = __DIR__ . '/petdata.json';
 
-            $existing[] = $meta;
-            $saved = file_put_contents($jsonFile, json_encode($existing, JSON_PRETTY_PRINT));
-
-            if ($saved !== false) {
-                echo "<p>Upload successful.</p><a href='pets.php'>View images</a>";
-            } else {
-                echo "<p>Upload succeeded, but failed to save metadata.</p>";
-            }
-
-        } catch (S3Exception $e) {
-            echo "<p>Upload failed: " . $e->getMessage() . "</p>";
+        // Load and append
+        if (file_exists($jsonFile)) {
+            $existing = json_decode(file_get_contents($jsonFile), true);
+            if (!is_array($existing)) $existing = [];
+        } else {
+            $existing = [];
         }
-    } else {
-        echo "<p>Error uploading file.</p>";
+
+        $existing[] = $meta;
+        $saved = file_put_contents($jsonFile, json_encode($existing, JSON_PRETTY_PRINT));
+
+        if ($saved !== false) {
+            echo "<p>Upload successful.</p><a href='pets.php'>View images</a>";
+        } else {
+            echo "<p>Upload succeeded, but failed to save metadata.</p>";
+        }
+
+    } catch (S3Exception $e) {
+        echo "<p>Upload failed: " . $e->getMessage() . "</p>";
     }
 }
 ?>

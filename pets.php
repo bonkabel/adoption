@@ -43,6 +43,7 @@
 
                 foreach ($entries as $entry) {
                     $url = "https://{$bucket}.s3.{$region}.amazonaws.com/" . $entry['filename'];
+                    echo "<p>$url</p>"
                     echo "<div style='margin:15px; text-align:center;'>";
                     echo "<img src='$url' style='width:200px; height:auto;'><br>";
                     echo "<strong>Name:</strong> " . htmlspecialchars($entry['name']) . "<br>";

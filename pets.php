@@ -43,8 +43,8 @@
 
                 foreach ($entries as $entry) {
                     $url = $entry['url'];
-                    echo "<div style='margin:15px; text-align:center;'>";
-                    echo "<img src='$url' style='width:200px; height:auto;'><br>";
+                    echo "<div class='image-card'>";
+                    echo "<img src='$url' alt='Pet Image'>";
                     echo "<strong>Name:</strong> " . htmlspecialchars($entry['name']) . "<br>";
                     echo "<strong>Age:</strong> " . htmlspecialchars($entry['age']) . "<br>";
                     echo "<strong>Breed:</strong> " . htmlspecialchars($entry['breed']);

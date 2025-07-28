@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['image'])) {
                 'name'     => $name,
                 'age'      => $age,
                 'breed'    => $breed,
-                'url'      => "https://{$bucket}.s3.{$region}.amazonaws.com/{$filename}"
+                'url'      => "https://{$bucket}.s3.{$region}.amazonaws.com{$filename}"
             ];
 
             $jsonFile = __DIR__ . '/petdata.json';

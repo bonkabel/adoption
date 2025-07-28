@@ -46,3 +46,8 @@ body {
     text-align: center;
 }
 
+.content * {
+    display: inline;
+    float:none;
+}
+

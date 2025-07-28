@@ -42,7 +42,6 @@
                 echo "<div style='display:flex; flex-wrap:wrap;'>";
 
                 foreach ($entries as $entry) {
-                    $url = $entry['url'];
                     echo "<p>URL: $url</p>";
                     echo "<div style='margin:15px; text-align:center;'>";
                     echo "<img src='$url' style='width:200px; height:auto;'><br>";
